@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\SavePostRequest;
 
 class PostController
 {
@@ -14,7 +16,11 @@ class PostController
      */
     public function index()
     {
-        return view('admin.posts.index');
+        $posts = Post::all();
+
+        return view('admin.posts.index', [
+            'posts' => $posts,
+    ]);
     }
 
     /**
@@ -24,7 +30,11 @@ class PostController
      */
     public function create()
     {
-        //
+        $users = User::query()->select(['id', 'name'])->get();
+
+        return view('admin.posts.create', [
+            // 'users' => $users,
+        ]);
     }
 
     /**
@@ -33,9 +43,11 @@ class PostController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SavePostRequest $request)
     {
-        //
+        (new Post($request->validated()))->save();
+
+        return redirect()->route('admin.posts.index');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\SavePostRequest;
 
@@ -20,6 +21,7 @@ class PostController
 
         return view('admin.posts.index', [
             'posts' => $posts,
+            'user_id' => User::query()->select('id')->get(),
     ]);
     }
 

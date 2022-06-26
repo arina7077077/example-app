@@ -28,16 +28,18 @@ Route::group([
     'as' => 'admin.',
     'middleware' => 'auth',
 ], function() {
+    Route::view('/', 'admin.main');
     Route::get('comments', [CommentController::class, 'index']);
     Route::get('users', [UserController::class, 'index']);
     Route::group([
         'prefix' => 'posts',
         'as' => 'posts.',
     ], function(){
-    Route::view('/', 'admin.main');
     Route::get('/', [PostController::class, 'index'])->name('index');
     Route::get('create', [PostController::class, 'create'])->name('create');
     Route::post('store', [PostController::class, 'store'])->name('store');
+    Route::get('/{post}', [PostController::class, 'edit'])->name('edit');
+    Route::put('/{post}', [PostController::class, 'update'])->name('update');
     });
 });
 

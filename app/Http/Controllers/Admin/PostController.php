@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\SavePostRequest;
+
 
 class PostController
 {
@@ -30,11 +30,7 @@ class PostController
      */
     public function create()
     {
-        $users = User::query()->select(['id', 'name'])->get();
-
-        return view('admin.posts.create', [
-            // 'users' => $users,
-        ]);
+        return view('admin.posts.create');
     }
 
     /**
@@ -45,7 +41,9 @@ class PostController
      */
     public function store(SavePostRequest $request)
     {
-        (new Post($request->validated()))->save();
+        $post = new Post($request->validated());
+        $post->user_id = auth()->user()->id;
+        $post->save();
 
         return redirect()->route('admin.posts.index');
     }
@@ -69,7 +67,9 @@ class PostController
      */
     public function edit(Post $post)
     {
-        //
+        return view('admin.posts.update', [
+            'post' => $post,
+        ]);
     }
 
     /**
@@ -79,9 +79,14 @@ class PostController
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(SavePostRequest $request, Post $post)
     {
-        //
+        // $post = new Post($request->validated());
+        // $post->user_id = auth()->user()->id;
+        // $post->update();
+        $post->update($request->validated());
+
+        return redirect()->route('admin.posts.index');
     }
 
     /**

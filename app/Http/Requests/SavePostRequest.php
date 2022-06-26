@@ -13,7 +13,7 @@ class SavePostRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,9 +24,8 @@ class SavePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|unique|max:255',
+            'title' => 'required',
             'content' => 'required',
-            'user_id' => '',
         ];
     }
 }

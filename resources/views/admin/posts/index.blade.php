@@ -7,7 +7,6 @@ Posts
 @endsection
 
 @section('content')
-
 <table class="table">
     <thead>
       <tr>
@@ -23,7 +22,9 @@ Posts
                         <td>{{ $post->id }}</td>
                         <td>{{ $post->title }}</td>
                         <td>{{ $post->content }}</td>
-                        <td><a href="{{ route('admin.posts.update', $post) }}" class="btn btn-outline-warning">Edit</a></td>
+                        @if($post->user_id == auth()->user()->id)
+                        <td><a href="{{ route('admin.posts.update', $post) }}" class="btn btn-outline-warning">Update</a></td>
+                        @endif
                     </tr>
                 @endforeach
                 </tbody>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\SavePostRequest;
 
@@ -41,9 +42,11 @@ class PostController
      */
     public function store(SavePostRequest $request)
     {
-        $post = new Post($request->validated());
-        $post->user_id = auth()->user()->id;
-        $post->save();
+        // $post = new Post($request->validated());
+        // /** @var User $user */
+        // $user = auth()->user();
+        // $user->posts()->save($post);
+        auth()->user()->posts()->create($request->validated());
 
         return redirect()->route('admin.posts.index');
     }

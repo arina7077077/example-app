@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Http\Requests\SaveCommentRequest;
 
 class CommentController
 {
@@ -14,7 +16,11 @@ class CommentController
      */
     public function index()
     {
-        return view('admin.comments.index');
+        $comments = Comment::all();
+
+        return view('admin.comments.index', [
+            'comments' => $comments,
+        ]);
     }
 
     /**
@@ -22,9 +28,9 @@ class CommentController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Post $post)
     {
-        //
+        return view('admin.comments.create', ['post' => $post]);
     }
 
     /**
@@ -33,9 +39,11 @@ class CommentController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Post $post, SaveCommentRequest $request)
     {
-        //
+        $post->comments()->create($request->validated());
+
+        return redirect()->route('admin.comments.index');
     }
 
     /**
@@ -57,7 +65,9 @@ class CommentController
      */
     public function edit(Comment $comment)
     {
-        //
+        return view('admin.comments.update', [
+            'comment' => $comment,
+        ]);
     }
 
     /**
@@ -67,9 +77,11 @@ class CommentController
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(SaveCommentRequest $request, Comment $comment)
     {
-        //
+        $comment->update($request->validated());
+
+        return redirect()->route('admin.comments.index');
     }
 
     /**

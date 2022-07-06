@@ -41,6 +41,17 @@ Route::group([
     Route::get('/{post}', [PostController::class, 'edit'])->name('edit');
     Route::put('/{post}', [PostController::class, 'update'])->name('update');
     });
+    Route::group([
+        'prefix' => 'comments',
+        'as' => 'comments.',
+    ], function(){
+    Route::get('/', [CommentController::class, 'index'])->name('index');
+    Route::get('create/{post}', [CommentController::class, 'create'])->name('create');
+    Route::post('store/{post}', [CommentController::class, 'store'])->name('store');
+    Route::get('/{post}', [CommentController::class, 'edit'])->name('edit');
+    Route::put('/{post}', [CommentController::class, 'update'])->name('update');
+    });
+
 });
 
 // Route::group([

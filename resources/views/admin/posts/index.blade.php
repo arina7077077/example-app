@@ -17,17 +17,18 @@ Posts
     </thead>
     <tbody class="table-group-divider">
         <td><a href="{{ route('admin.posts.create') }}" class="btn btn-primary btn-sm">Create new post</a></td>
-  @foreach($posts as $post)
-                    <tr>
-                        <td>{{ $post->id }}</td>
-                        <td>{{ $post->title }}</td>
-                        <td>{{ $post->content }}</td>
-                        @if($post->user_id == auth()->user()->id)
-                        <td><a href="{{ route('admin.posts.update', $post) }}" class="btn btn-outline-warning">Update</a></td>
-                        @endif
-                    </tr>
-                @endforeach
-                </tbody>
+        @foreach($posts as $post)
+            <tr>
+                <td>{{ $post->id }}</td>
+                <td>{{ $post->title }}</td>
+                <td>{{ $post->content }}</td>
+                <td><a href="{{ route('admin.comments.create', $post) }}" class="btn btn-outline-warning">Comment</a></td>
+                @if($post->user_id == auth()->user()->id)
+                <td><a href="{{ route('admin.posts.update', $post) }}" class="btn btn-outline-warning">Update</a></td>
+                @endif
+            </tr>
+        @endforeach
+    </tbody>
   </table>
 @endsection
 
